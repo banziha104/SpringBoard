@@ -37,7 +37,7 @@ public class SpringBoardApplication {
                             .content("컨텐츠")
                             .boardType(BoardType.free)
                             .createdDate(LocalDateTime.now())
-                            .updatedDate(LocalDateTime.now())
+.updatedDate(LocalDateTime.now())
                             .user(user).build())
             );
         };
