@@ -12,7 +12,7 @@ ext['hibernate.version'] = '5.2.10.Final'
 
 buildscript {
 	ext {
-		springBootVersion = '1.5.12.RELEASE'
+		springBootVersion = '2.1.5.RELEASE'
 	}
 	repositories {
 		mavenCentral()
