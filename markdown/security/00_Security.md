@@ -301,3 +301,7 @@ public class UserTokenService extends UserInfoTokenServices { // UserInfoTokenSe
 
 ```
 
+7. AOP 구현
+
+```java
+```
