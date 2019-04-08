@@ -9,18 +9,23 @@ import org.springframework.stereotype.Service;
 
 @Service// 서비스로 사용될 컴포넌트 정의
 public class BoardService {
+
     private final BoardRepository boardRepository;
 
     public BoardService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
 
-    public Page<Board> findBoardList(Pageable pageable) { //
-        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber() - 1, pageable.getPageSize());
+    public Page<Board> findBoardList(Pageable pageable) {
+        pageable = new PageRequest(pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber() - 1, pageable.getPageSize());
         return boardRepository.findAll(pageable);
     }
 
-    public Board findBoardByIdx(Long idx) { //
-        return boardRepository.findById(idx).orElse(new Board());
+    public Board findBoardByIdx(Long idx) {
+        return boardRepository.findOne(idx);
+    }
+
+    public Board saveAndUpdateBoard(Board board) {
+        return boardRepository.save(board);
     }
 }

@@ -1,6 +1,7 @@
 package com.board.springboard.config;
 import com.board.springboard.domain.enums.SocialType;
 import com.board.springboard.oauth.ClientResources;
+import com.board.springboard.oauth.UserTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import javax.servlet.Filter;
 
-ㄴ
+
 import static com.board.springboard.domain.enums.SocialType.FACEBOOK;
 import static com.board.springboard.domain.enums.SocialType.GOOGLE;
 import static com.board.springboard.domain.enums.SocialType.KAKAO;

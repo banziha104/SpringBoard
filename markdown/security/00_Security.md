@@ -182,43 +182,9 @@ dependencies {
         userInfoUri: https://kapi.kakao.com/v1/user/me
     ``` 
     
-5. 시큐리티 OAuth2 
+5. 시큐리티 OAuth2 설정 객체 생성 
     
 ```java
-package com.board.springboard.config;
-import com.board.springboard.domain.enums.SocialType;
-import com.board.springboard.oauth.ClientResources;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.CompositeFilter;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.Filter;
-
-ㄴ
-import static com.board.springboard.domain.enums.SocialType.FACEBOOK;
-import static com.board.springboard.domain.enums.SocialType.GOOGLE;
-import static com.board.springboard.domain.enums.SocialType.KAKAO;
-
 @Configuration
 @EnableOAuth2Client // OAuth2 기능을 사용하겠다는 어노테이션
 @EnableWebSecurity // 웹에서 시큐리티 기능을 사용하겠다는 어노테이션
@@ -307,5 +273,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 요청, �
 }
 ```
 
+6. 토큰 클래스 설정
 
+```java
+public class UserTokenService extends UserInfoTokenServices { // UserInfoTokenServices는 OAuth2 인증을위해 스프링에서 제공 
+
+    public UserTokenService(ClientResources resources, SocialType socialType) {
+        super(resources.getResource().getUserInfoUri(), resources.getClient().getClientId());
+        setAuthoritiesExtractor(new OAuth2AuthoritiesExtractor(socialType));
+    }
+
+    public static class OAuth2AuthoritiesExtractor implements AuthoritiesExtractor {
+
+        private String socialType;
+
+        public OAuth2AuthoritiesExtractor(SocialType socialType) {
+            this.socialType = socialType.getRoleType();
+        }
+
+        @Override
+        public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
+            return AuthorityUtils.createAuthorityList(this.socialType);
+        }
+    }
+
+}
+
+```
 
