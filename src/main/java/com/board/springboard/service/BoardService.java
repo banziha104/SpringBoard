@@ -21,11 +21,8 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
-    public Board findBoardByIdx(Long idx) {
-        return boardRepository.findOne(idx);
-    }
 
-    public Board saveAndUpdateBoard(Board board) {
-        return boardRepository.save(board);
+    public Board findBoardByIdx(Long idx) {
+        return boardRepository.findById(idx).orElse(new Board());
     }
 }

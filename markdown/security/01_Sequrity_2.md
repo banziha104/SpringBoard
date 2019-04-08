@@ -1,3 +1,8 @@
+# Security 2.x 버전
+
+1. Gradle 설정
+
+```groovy
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -41,3 +46,48 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+```
+
+2. application.yml 변경
+
+```yaml
+spring:
+#  datasource:
+#    url: jdbc:mysql://
+#    username:
+#    password:
+#    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+  h2:
+    console:
+      enabled: true
+      path: /console
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+      cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+          facebook:
+            client-id:
+            client-secret:
+custom:
+  oauth2:
+    kakao:
+      client-id:
+```
+
+3. Security Config변경 
+
+```java
+
+```
